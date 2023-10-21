@@ -13,5 +13,5 @@ export async function encode(input: Buffer, sampleRate: number) {
 
     if (ret === 0) throw new Error('编码失败')
 
-    return Buffer.concat(arr)
+    return Buffer.concat(arr).subarray(0, -1)
 }

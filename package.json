@@ -1,9 +1,8 @@
 {
     "name": "silk-wasm",
     "description": "tencent silk encode",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "main": "lib/index.cjs",
-    "module": "lib/index.mjs",
     "typings": "lib/index.d.ts",
     "repository": {
         "type": "git",
@@ -16,8 +15,7 @@
     ],
     "scripts": {
         "compile:cjs": "esbuild src/index.ts --outfile=lib/index.cjs --bundle --platform=node --target=es2022",
-        "compile:esm": "esbuild src/index.ts --outfile=lib/index.mjs --bundle --platform=node --target=es2022 --format=esm",
-        "build": "yarn compile:cjs && yarn compile:esm && yarn dtsc"
+        "build": "yarn compile:cjs && yarn dtsc"
     },
     "keywords": [
         "silk",
