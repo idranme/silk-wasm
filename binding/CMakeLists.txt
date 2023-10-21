@@ -36,7 +36,7 @@ add_library(silk_static STATIC
 add_executable(${PROJECT_NAME} index.cpp)
 
 # -s TOTAL_MEMORY=314572800 
-set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS  " -lembind -s MODULARIZE -s EXPORTED_FUNCTIONS=\"['_malloc','_free']\" -s EXPORTED_RUNTIME_METHODS=\"['addFunction']\" -s ALLOW_MEMORY_GROWTH ")
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS  "-lembind -s MODULARIZE -s ALLOW_MEMORY_GROWTH")
 
 target_include_directories(${PROJECT_NAME}
   PRIVATE
