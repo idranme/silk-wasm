@@ -4,10 +4,15 @@
 
 ## API
 ```ts
+// pcm 转 silk。input 为 pcm 文件，samplingRate 为采样率。 
 function encode(input: Buffer, sampleRate: number): Promise<Buffer>
-```
 
-input 为 pcm 文件，samplingRate 为采样率。 
+// silk 转 pcm。input 为 silk 文件，samplingRate 为采样率。 
+function decode(input: Buffer, sampleRate: number): Promise<Buffer>
+
+// 获取 silk 音频时长，输出单位为毫秒。
+function getDuration(silk: Buffer, frameMs?: number): number
+```
 
 ## Example
 

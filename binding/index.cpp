@@ -5,7 +5,6 @@ extern "C"
 }
 #include <emscripten/bind.h>
 #include <emscripten/val.h>
-#include <iostream>
 using namespace std;
 using namespace emscripten;
 
@@ -23,13 +22,21 @@ void codec_callback(void *userdata, unsigned char *data, int len)
 int silk_encode(std::string data, int data_len, int sample_rate, val cb)
 {
     codec_ctx_t ctx = {cb};
-    //unsigned char* uc = (unsigned char*) data.as<std::string>().c_str();
     unsigned char* uc = (unsigned char*) data.c_str();
     int ret = silkEncode(uc, data_len, sample_rate, codec_callback, &ctx);
     return ret;
 }
 
+int silk_decode(std::string data, int data_len, int sample_rate, val cb)
+{
+    codec_ctx_t ctx = {cb};
+    unsigned char* uc = (unsigned char*) data.c_str();
+    int ret = silkDecode(uc, data_len, sample_rate, codec_callback, &ctx);
+    return ret;
+}
+
 EMSCRIPTEN_BINDINGS(module)
 {
-    emscripten::function("silk_encode", &silk_encode); // 绑定块的别名
+    emscripten::function("silk_encode", &silk_encode);
+    emscripten::function("silk_decode", &silk_decode);
 }

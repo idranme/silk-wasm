@@ -6,7 +6,7 @@ project(silk_wasm)
 ## Flags and includes for building
 # Note that we make sure not to overwrite previous flags
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -O3")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O3")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/)
 
 ## Add any additional library paths here
@@ -36,7 +36,7 @@ add_library(silk_static STATIC
 add_executable(${PROJECT_NAME} index.cpp)
 
 # -s TOTAL_MEMORY=314572800 
-set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS  "-lembind -s MODULARIZE -s ALLOW_MEMORY_GROWTH")
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS  "-lembind -sMODULARIZE -sALLOW_MEMORY_GROWTH")
 
 target_include_directories(${PROJECT_NAME}
   PRIVATE
