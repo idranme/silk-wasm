@@ -1,8 +1,9 @@
 {
     "name": "silk-wasm",
     "description": "tencent silk encode",
-    "version": "1.3.14",
+    "version": "1.4.0",
     "main": "lib/index.cjs",
+    "module": "lib/index.mjs",
     "typings": "lib/index.d.ts",
     "repository": {
         "type": "git",
@@ -14,8 +15,9 @@
         "lib"
     ],
     "scripts": {
-        "compile:cjs": "esbuild src/index.ts --outfile=lib/index.cjs --bundle --platform=node --target=es2022",
-        "build": "yarn compile:cjs && yarn dtsc"
+        "compile:cjs": "esbuild src/index.ts --outfile=lib/index.cjs --bundle --platform=node --target=es2022 --inject:./import-meta-url.js --define:import.meta.url=import_meta_url",
+        "compile:esm": "esbuild src/index.ts --outfile=lib/index.mjs --bundle --platform=node --target=es2022 --format=esm",
+        "build": "yarn compile:cjs && yarn compile:esm && yarn dtsc"
     },
     "keywords": [
         "silk",
@@ -23,10 +25,11 @@
         "encode",
         "silk-sdk",
         "wasm",
-        "decode"
+        "decode",
+        "codec"
     ],
     "devDependencies": {
-        "@types/node": "^20.8.7",
+        "@types/node": "^20.8.8",
         "dtsc": "^2.3.0",
         "esbuild": "^0.19.5",
         "typescript": "^5.2.2"

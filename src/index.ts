@@ -4,11 +4,10 @@ export async function encode(input: Buffer, sampleRate: number): Promise<Buffer>
     const instance = await silkWasm()
     const u8Array = Uint8Array.from(input)
 
-    const arr: Buffer[] = []
+    const arr: Uint8Array[] = []
 
-    const ret = instance.silk_encode(u8Array, input.length, sampleRate, (chunk: Uint8Array) => {
-        const buf = Buffer.from(chunk)
-        arr.push(buf)
+    const ret = instance.silk_encode(u8Array, u8Array.length, sampleRate, (chunk: Uint8Array) => {
+        arr.push(chunk)
     })
 
     if (ret === 0) throw new Error('编码失败')
@@ -20,11 +19,10 @@ export async function decode(input: Buffer, sampleRate: number): Promise<Buffer>
     const instance = await silkWasm()
     const u8Array = Uint8Array.from(input)
 
-    const arr: Buffer[] = []
+    const arr: Uint8Array[] = []
 
-    const ret = instance.silk_decode(u8Array, input.length, sampleRate, (chunk: Uint8Array) => {
-        const buf = Buffer.from(chunk)
-        arr.push(buf)
+    const ret = instance.silk_decode(u8Array, u8Array.length, sampleRate, (chunk: Uint8Array) => {
+        arr.push(chunk)
     })
 
     if (ret === 0) throw new Error('解码失败')
@@ -33,10 +31,7 @@ export async function decode(input: Buffer, sampleRate: number): Promise<Buffer>
 }
 
 export function getDuration(silk: Buffer, frameMs = 20): number {
-    let tencent = false
-    if (silk[0] === 0x02) {
-        tencent = true
-    }
+    const tencent = silk[0] === 0x02
     let offset = tencent ? 10 : 9
     let i = 0
     while (offset < silk.length) {
