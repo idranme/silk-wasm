@@ -159,25 +159,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.8.8":
-  version: 20.8.8
-  resolution: "@types/node@npm:20.8.8"
+"@types/node@npm:^20.8.9":
+  version: 20.8.9
+  resolution: "@types/node@npm:20.8.9"
   dependencies:
-    undici-types: ~5.25.1
-  checksum: 028a9606e4ef594a4bc7b3310596499d7ce01b2e30f4d1d906ad8ec30c24cea7ec1b3dc181dd5df8d8d2bfe8de54bf3e28ae93be174b4c7d81c0db8326e4f35c
-  languageName: node
-  linkType: hard
-
-"dtsc@npm:^2.3.0":
-  version: 2.3.0
-  resolution: "dtsc@npm:2.3.0"
-  dependencies:
-    tsconfig-utils: ^3.0.0
-  peerDependencies:
-    typescript: "*"
-  bin:
-    dtsc: lib/bin.js
-  checksum: 7ec872e130b8fea7b24be3c5d2a40b1459babca8ee19aa48c25ed64b6094798d8888fcef42c1820dfe6ef6e9c27d3ade25b50bcdd736a79254a5b14e5daad46a
+    undici-types: ~5.26.4
+  checksum: 0c05f3502a9507ff27e91dd6fd574fa6f391b3fafedcfe8e0c8d33351fb22d02c0121f854e5b6b3ecb9a8a468407ddf6e7ac0029fb236d4c7e1361ffc758a01f
   languageName: node
   linkType: hard
 
@@ -258,36 +245,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"json5@npm:^2.2.3":
-  version: 2.2.3
-  resolution: "json5@npm:2.2.3"
-  bin:
-    json5: lib/cli.js
-  checksum: 2a7436a93393830bce797d4626275152e37e877b265e94ca69c99e3d20c2b9dab021279146a39cdb700e71b2dd32a4cebd1514cd57cee102b1af906ce5040349
-  languageName: node
-  linkType: hard
-
 "silk-wasm@workspace:.":
   version: 0.0.0-use.local
   resolution: "silk-wasm@workspace:."
   dependencies:
-    "@types/node": ^20.8.8
-    dtsc: ^2.3.0
+    "@types/node": ^20.8.9
     esbuild: ^0.19.5
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
-
-"tsconfig-utils@npm:^3.0.0":
-  version: 3.1.3
-  resolution: "tsconfig-utils@npm:3.1.3"
-  dependencies:
-    json5: ^2.2.3
-  peerDependencies:
-    typescript: "*"
-  checksum: b9230fd46ecb819bbdd871a82065d73c5204382800c3aa111c65631c2bb6b6c1a17e1ffa326f60e2b69ffc73eadb12269a6e53d2544ab1585c22132477dfa42c
-  languageName: node
-  linkType: hard
 
 "typescript@npm:^5.2.2":
   version: 5.2.2
@@ -309,9 +275,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:~5.25.1":
-  version: 5.25.3
-  resolution: "undici-types@npm:5.25.3"
-  checksum: ec9d2cc36520cbd9fbe3b3b6c682a87fe5be214699e1f57d1e3d9a2cb5be422e62735f06e0067dc325fd3dd7404c697e4d479f9147dc8a804e049e29f357f2ff
+"undici-types@npm:~5.26.4":
+  version: 5.26.5
+  resolution: "undici-types@npm:5.26.5"
+  checksum: 3192ef6f3fd5df652f2dc1cd782b49d6ff14dc98e5dced492aa8a8c65425227da5da6aafe22523c67f035a272c599bb89cfe803c1db6311e44bed3042fc25487
   languageName: node
   linkType: hard

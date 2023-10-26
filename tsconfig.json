@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
         "rootDir": "src",
-        "outFile": "lib/index.d.ts",
+        "outDir": "lib",
         "target": "es2022",
         "module": "commonjs",
         "declaration": true,
