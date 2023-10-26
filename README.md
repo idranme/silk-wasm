@@ -2,6 +2,8 @@
 
 [![npm](https://img.shields.io/npm/v/silk-wasm?style=flat-square)](https://www.npmjs.com/package/silk-wasm)
 
+QQ/微信语音编解码
+
 ## API
 ```ts
 // pcm 转 silk。input 为 pcm 文件，samplingRate 为采样率。 
