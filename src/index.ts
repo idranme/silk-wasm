@@ -14,7 +14,7 @@ export async function encode(input: Uint8Array, sampleRate: number): Promise<Uin
 
     if (ret === 0) throw new Error('silk encoding failure')
 
-    return concat(arr, totalLength).subarray(0, -1)
+    return concat(arr, totalLength).slice(0, -1)
 }
 
 export async function decode(input: Uint8Array, sampleRate: number): Promise<Uint8Array> {
