@@ -32,7 +32,7 @@ const { readFile, writeFile } = require('fs/promises');
 (async function () {
     const pcm = await readFile('./test.pcm')
     const silk = await encode(pcm, 24000)
-    await writeFile('./test.silk', silk)
+    await writeFile('./test.silk', silk.data)
 })()
 ```
 
