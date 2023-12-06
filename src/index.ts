@@ -1,7 +1,16 @@
 import silkWasm from './silk_wasm.js'
 import { concat } from './utils'
 
-export async function encode(input: Uint8Array, sampleRate: number): Promise<Uint8Array> {
+export interface encodeResult {
+    data: Uint8Array
+    duration: number
+}
+
+export interface decodeResult {
+    data: Uint8Array
+}
+
+export async function encode(input: Uint8Array, sampleRate: number): Promise<encodeResult> {
     const instance = await silkWasm()
 
     const arr: Uint8Array[] = []
@@ -14,10 +23,13 @@ export async function encode(input: Uint8Array, sampleRate: number): Promise<Uin
 
     if (ret === 0) throw new Error('silk encoding failure')
 
-    return concat(arr, totalLength).slice(0, -1)
+    return {
+        data: concat(arr, totalLength).slice(0, -1),
+        duration: ret
+    }
 }
 
-export async function decode(input: Uint8Array, sampleRate: number): Promise<Uint8Array> {
+export async function decode(input: Uint8Array, sampleRate: number): Promise<decodeResult> {
     const instance = await silkWasm()
 
     const arr: Uint8Array[] = []
@@ -30,7 +42,7 @@ export async function decode(input: Uint8Array, sampleRate: number): Promise<Uin
 
     if (ret === 0) throw new Error('silk decoding failure')
 
-    return concat(arr, totalLength)
+    return { data: concat(arr, totalLength) }
 }
 
 export function getDuration(silk: Uint8Array, frameMs = 20): number {

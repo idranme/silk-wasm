@@ -7,10 +7,17 @@ QQ/微信语音编解码
 ## API
 ```ts
 // pcm 转 silk。input 为单声道 pcm_s16le 文件，samplingRate 为采样率。 
-function encode(input: Uint8Array, sampleRate: number): Promise<Uint8Array>
+interface encodeResult {
+    data: Uint8Array
+    duration: number
+}
+function encode(input: Uint8Array, sampleRate: number): Promise<encodeResult>
 
 // silk 转 pcm。input 为 silk 文件，samplingRate 为采样率。 
-function decode(input: Uint8Array, sampleRate: number): Promise<Uint8Array>
+interface decodeResult {
+    data: Uint8Array
+}
+function decode(input: Uint8Array, sampleRate: number): Promise<decodeResult>
 
 // 获取 silk 音频时长，输出单位为毫秒。
 function getDuration(silk: Uint8Array, frameMs?: number): number

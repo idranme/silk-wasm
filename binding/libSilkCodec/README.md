@@ -1,5 +1,5 @@
 ## libSilkCodec
-Cross-platform silk codec wrap library depends on [ploverlake/silk](https://github.com/ploverlake/silk).
+Forked from [KonataDev/libSilkCodec](https://github.com/KonataDev/libSilkCodec).
 
 ## Clone & Build
 
@@ -59,4 +59,4 @@ Windows
 - [ploverlake/silk](https://github.com/ploverlake/silk) offer the original SILK source code.
 
 ## License
-licensed under MIT with ❤.
+[MIT license](https://github.com/KonataDev/libSilkCodec/blob/main/LICENSE)
