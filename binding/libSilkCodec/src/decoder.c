@@ -9,9 +9,9 @@ silkDecode(unsigned char *silkData, int dataLen,
   SKP_uint8 *payloadEnd = NULL, *payloadToDec = NULL;
   SKP_int16 nBytesPerPacket[MAX_LBRR_DELAY + 1];
   SKP_int16 out[((FRAME_LENGTH_MS * MAX_API_FS_KHZ) << 1) * MAX_INPUT_FRAMES], *outPtr;
-  SKP_int32 remainPackets = 0;
+  SKP_int32 remainPackets = 0, packetSize_ms = 0;
   SKP_int16 len, nBytes, totalLen = 0;
-  SKP_int32 decSizeBytes, result;
+  SKP_int32 decSizeBytes, result, totPackets;
   unsigned char *psRead = silkData;
   void *psDec = NULL;
 
@@ -38,6 +38,8 @@ silkDecode(unsigned char *silkData, int dataLen,
   DecControl.framesPerPacket = 1;
   DecControl.API_sampleRate = sampleRate;
 
+  totPackets = 0;
+
   /* Simulate the jitter buffer holding MAX_FEC_DELAY packets */
   {
     for (int i = 0; i < MAX_LBRR_DELAY; i++)
@@ -57,6 +59,7 @@ silkDecode(unsigned char *silkData, int dataLen,
 
       nBytesPerPacket[i] = nBytes;
       payloadEnd += nBytes;
+      totPackets++;
     }
 
     nBytesPerPacket[MAX_LBRR_DELAY] = 0;
@@ -121,6 +124,9 @@ silkDecode(unsigned char *silkData, int dataLen,
       /* Until last 20 ms frame of packet has been decoded */
     } while (DecControl.moreInternalDecoderFrames);
 
+    packetSize_ms = totalLen / (DecControl.API_sampleRate / 1000);
+    totPackets++;
+
     /* Write output to file */
 #ifdef _SYSTEM_IS_BIG_ENDIAN
     swap_endian(out, totalLen);
@@ -145,7 +151,7 @@ silkDecode(unsigned char *silkData, int dataLen,
   }
 
   free(psDec);
-  return 1;
+  return totPackets * packetSize_ms;
 
 failed:
   if (psDec)

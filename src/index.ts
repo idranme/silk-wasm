@@ -8,6 +8,7 @@ export interface encodeResult {
 
 export interface decodeResult {
     data: Uint8Array
+    duration: number
 }
 
 export async function encode(input: Uint8Array, sampleRate: number): Promise<encodeResult> {
@@ -42,7 +43,10 @@ export async function decode(input: Uint8Array, sampleRate: number): Promise<dec
 
     if (ret === 0) throw new Error('silk decoding failure')
 
-    return { data: concat(arr, totalLength) }
+    return {
+        data: concat(arr, totalLength),
+        duration: ret
+    }
 }
 
 export function getDuration(silk: Uint8Array, frameMs = 20): number {
