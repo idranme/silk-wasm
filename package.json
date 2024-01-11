@@ -1,7 +1,7 @@
 {
     "name": "silk-wasm",
     "description": "Tencent silk encoder for Node.js and browser",
-    "version": "3.1.0",
+    "version": "3.1.1",
     "main": "lib/index.cjs",
     "module": "lib/index.mjs",
     "typings": "lib/index.d.ts",
@@ -15,7 +15,7 @@
         "lib"
     ],
     "scripts": {
-        "compile:cjs": "esbuild src/index.ts --outfile=lib/index.cjs --bundle --minify-whitespace --minify-syntax --platform=node --target=es2022 --inject:./import-meta-url.js --define:import.meta.url=import_meta_url",
+        "compile:cjs": "esbuild src/index.ts --outfile=lib/index.cjs --bundle --minify-whitespace --minify-syntax --platform=node --target=es2022 --inject:scripts/patch.js --define:import.meta.url=import_meta_url",
         "compile:esm": "esbuild src/index.ts --outfile=lib/index.mjs --bundle --minify-whitespace --minify-syntax --platform=node --target=es2022 --format=esm",
         "build": "yarn compile:cjs && yarn compile:esm && tsc"
     },
@@ -29,9 +29,9 @@
         "codec"
     ],
     "devDependencies": {
-        "@types/node": "^20.10.3",
-        "esbuild": "^0.19.8",
-        "typescript": "^5.3.2"
+        "@types/node": "^20.11.0",
+        "esbuild": "^0.19.11",
+        "typescript": "^5.3.3"
     },
     "packageManager": "yarn@4.0.2"
 }

@@ -10,6 +10,11 @@ temp
 !.yarn/sdks
 !.yarn/versions
 
+binding/*
+!binding/libSilkCodec
+!binding/src
+!binding/CMakeLists.txt
+
 yarn.lock
 package-lock.json
 pnpm-lock.yaml

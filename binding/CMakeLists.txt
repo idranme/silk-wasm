@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.27)
 
 ## Project
 project(silk_wasm)
@@ -33,10 +33,10 @@ add_library(silk_static STATIC
   libSilkCodec/src/decoder.c
 )
 
-add_executable(${PROJECT_NAME} index.cpp)
+add_executable(${PROJECT_NAME} src/index.cpp)
 
 # -s TOTAL_MEMORY=314572800 
-set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS  "-lembind -sMODULARIZE -sALLOW_MEMORY_GROWTH -sEXPORT_ES6 -sINVOKE_RUN=0")
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS  "-lembind -sALLOW_MEMORY_GROWTH -sEXPORT_ES6 -sINVOKE_RUN=0 --embind-emit-tsd silk_wasm.d.ts")
 
 target_include_directories(${PROJECT_NAME}
   PRIVATE

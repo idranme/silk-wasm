@@ -31,19 +31,17 @@ function getDuration(silk: Uint8Array, frameMs?: number): number
 ## Example
 
 ```js
-const { encode } = require('silk-wasm');
-const { readFile, writeFile } = require('fs/promises');
+import { encode } from './lib/index.mjs'  // use `silk-wasm` instead
+import { readFile, writeFile } from 'fs/promises'
 
-(async function () {
-    const pcm = await readFile('./test.pcm')
-    const silk = await encode(pcm, 24000)
-    await writeFile('./test.silk', silk.data)
-})()
+const pcm = await readFile('./testdata/canon.pcm')
+const silk = await encode(pcm, 24000)
+await writeFile('./test.silk', silk.data)
 ```
 
 ## Build wasm
 ```
 cd binding
 emcmake cmake .
-emmake make
+emmake ninja
 ```

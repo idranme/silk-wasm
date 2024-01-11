@@ -1,4 +1,4 @@
-import silkWasm from './silk_wasm.js'
+import Instance from './silk_wasm.js'
 import { concat } from './utils'
 
 export interface encodeResult {
@@ -12,7 +12,7 @@ export interface decodeResult {
 }
 
 export async function encode(input: Uint8Array, sampleRate: number): Promise<encodeResult> {
-    const instance = await silkWasm()
+    const instance = await Instance()
 
     const arr: Uint8Array[] = []
     let totalLength = 0
@@ -31,7 +31,7 @@ export async function encode(input: Uint8Array, sampleRate: number): Promise<enc
 }
 
 export async function decode(input: Uint8Array, sampleRate: number): Promise<decodeResult> {
-    const instance = await silkWasm()
+    const instance = await Instance()
 
     const arr: Uint8Array[] = []
     let totalLength = 0
