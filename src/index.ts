@@ -73,4 +73,6 @@ export function getDuration(silk: ArrayBufferView | ArrayBuffer, frameMs = 20): 
     return i * frameMs
 }
 
-export { isWavFile }
+export function isWav(fileData: ArrayBufferView | ArrayBuffer): boolean {
+    return isWavFile(fileData)
+}
