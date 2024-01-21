@@ -18,14 +18,14 @@ interface decodeResult {
 ```
 
 ```ts
-// pcm 转 silk。input 为单声道 pcm_s16le 文件，samplingRate 为采样率。 
-function encode(input: Uint8Array, sampleRate: number): Promise<encodeResult>
+// pcm 转 silk。input 为 wav 或单声道 pcm_s16le 文件，samplingRate 为采样率。 
+function encode(input: ArrayBufferView | ArrayBuffer, sampleRate: number): Promise<encodeResult>
 
 // silk 转 pcm。input 为 silk 文件，samplingRate 为采样率。 
-function decode(input: Uint8Array, sampleRate: number): Promise<decodeResult>
+function decode(input: ArrayBufferView | ArrayBuffer, sampleRate: number): Promise<decodeResult>
 
 // 获取 silk 音频时长，输出单位为毫秒。
-function getDuration(silk: Uint8Array, frameMs?: number): number
+function getDuration(silk: ArrayBufferView | ArrayBuffer, frameMs?: number): number
 ```
 
 ## Example

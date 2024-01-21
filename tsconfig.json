@@ -3,7 +3,7 @@
         "rootDir": "src",
         "outDir": "lib",
         "target": "es2022",
-        "module": "commonjs",
+        "module": "ESNext",
         "declaration": true,
         "emitDeclarationOnly": true,
         "skipLibCheck": true,
