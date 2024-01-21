@@ -72,3 +72,5 @@ export function getDuration(silk: ArrayBufferView | ArrayBuffer, frameMs = 20): 
     }
     return i * frameMs
 }
+
+export { isWavFile }
