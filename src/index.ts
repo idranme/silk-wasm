@@ -29,7 +29,7 @@ export async function encode(input: ArrayBufferView | ArrayBuffer, sampleRate: n
 
     const ret = instance.silk_encode(buffer, buffer.byteLength, sampleRate, (chunk: Uint8Array) => {
         outputLength += chunk.length
-        arr.push(Uint8Array.from(chunk))
+        arr.push(chunk.slice())
     })
 
     if (ret === 0) throw new Error('silk encoding failure')
@@ -49,7 +49,7 @@ export async function decode(input: ArrayBufferView | ArrayBuffer, sampleRate: n
 
     const ret = instance.silk_decode(buffer, buffer.byteLength, sampleRate, (chunk: Uint8Array) => {
         outputLength += chunk.length
-        arr.push(Uint8Array.from(chunk))
+        arr.push(chunk.slice())
     })
 
     if (ret === 0) throw new Error('silk decoding failure')

@@ -27,7 +27,7 @@ file(GLOB SILK_SRC
   libSilkCodec/silk/src/SILK_SDK_SRC_ARM_v1.0.9/src/*.c
 )
 
-add_library(silk_static STATIC
+add_library(silk
   ${SILK_SRC}
   libSilkCodec/src/encoder.c
   libSilkCodec/src/decoder.c
@@ -35,12 +35,12 @@ add_library(silk_static STATIC
 
 add_executable(${PROJECT_NAME} src/index.cpp)
 
-# -s TOTAL_MEMORY=314572800 
-set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS  "-lembind -sALLOW_MEMORY_GROWTH -sMODULARIZE -sEXPORT_ES6 -sINVOKE_RUN=0 --embind-emit-tsd silk_wasm.d.ts")
+set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS  "-lembind -sALLOW_MEMORY_GROWTH -sMODULARIZE -sEXPORT_ES6 -sINVOKE_RUN=0 \
+--closure 1 --embind-emit-tsd silk_wasm.d.ts")
 
 target_include_directories(${PROJECT_NAME}
   PRIVATE
   libSilkCodec/src/include
 )
 
-target_link_libraries(${PROJECT_NAME} silk_static)
+target_link_libraries(${PROJECT_NAME} silk)
