@@ -1,16 +1,18 @@
 import Instance from './silk_wasm.js'
-import { decodeWavFile, isWavFile } from 'wav-file-decoder'
+import { decodeWavFile, isWavFile, getWavFileInfo } from 'wav-file-decoder'
 import { concat, ensureMonoPcm, ensureS16lePcm } from './utils'
 
 export interface encodeResult {
     /** silk */
     data: Uint8Array
+    /** unit: milliseconds */
     duration: number
 }
 
 export interface decodeResult {
     /** pcm_s16le */
     data: Uint8Array
+    /** unit: milliseconds */
     duration: number
 }
 
@@ -75,6 +77,4 @@ export function getDuration(silk: ArrayBufferView | ArrayBuffer, frameMs = 20): 
     return i * frameMs
 }
 
-export function isWav(fileData: ArrayBufferView | ArrayBuffer): boolean {
-    return isWavFile(fileData)
-}
+export { isWavFile as isWav, getWavFileInfo }

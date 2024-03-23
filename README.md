@@ -18,10 +18,11 @@ interface decodeResult {
 ```
 
 ```ts
-// pcm 转 silk。input 为 wav 或单声道 pcm_s16le 文件，samplingRate 为采样率。 
+// pcm 转 silk。input 为 wav 或单声道 pcm_s16le 文件，samplingRate 为 input 的采样率。 
+// sampleRate: 8000/12000/16000/24000/32000/44100/48000
 function encode(input: ArrayBufferView | ArrayBuffer, sampleRate: number): Promise<encodeResult>
 
-// silk 转 pcm。input 为 silk 文件，samplingRate 为采样率。 
+// silk 转 pcm。input 为 silk 文件，samplingRate 为 input 的采样率。 
 function decode(input: ArrayBufferView | ArrayBuffer, sampleRate: number): Promise<decodeResult>
 
 // 获取 silk 音频时长，输出单位为毫秒。
