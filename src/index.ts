@@ -1,5 +1,5 @@
 import Instance from './silk_wasm.js'
-import { decodeWavFile, isWavFile, getWavFileInfo } from 'wav-file-decoder'
+import * as WavDecoder from 'wav-file-decoder'
 import { concat, ensureMonoPcm, ensureS16lePcm } from './utils'
 
 export interface encodeResult {
@@ -16,12 +16,28 @@ export interface decodeResult {
     duration: number
 }
 
+interface WavFileInfo {
+    chunkInfo: {
+        chunkId: string
+        dataOffset: number
+        dataLength: number
+    }[]
+    fmt: {
+        formatCode: number
+        numberOfChannels: number
+        sampleRate: number
+        bytesPerSec: number
+        bytesPerFrame: number
+        bitsPerSample: number
+    }
+}
+
 export async function encode(input: ArrayBufferView | ArrayBuffer, sampleRate: number): Promise<encodeResult> {
     const instance = await Instance()
     let buffer = ArrayBuffer.isView(input) ? input.buffer : input
 
-    if (isWavFile(input)) {
-        const { channelData, sampleRate: wavSampleRate } = decodeWavFile(input)
+    if (WavDecoder.isWavFile(input)) {
+        const { channelData, sampleRate: wavSampleRate } = WavDecoder.decodeWavFile(input)
         sampleRate ||= wavSampleRate
         buffer = ensureS16lePcm(ensureMonoPcm(channelData))
     }
@@ -77,4 +93,10 @@ export function getDuration(silk: ArrayBufferView | ArrayBuffer, frameMs = 20): 
     return i * frameMs
 }
 
-export { isWavFile as isWav, getWavFileInfo }
+export function isWav(fileData: ArrayBufferView | ArrayBuffer): boolean {
+    return WavDecoder.isWavFile(fileData)
+}
+
+export function getWavFileInfo(fileData: ArrayBufferView | ArrayBuffer): WavFileInfo {
+    return WavDecoder.getWavFileInfo(fileData)
+}
