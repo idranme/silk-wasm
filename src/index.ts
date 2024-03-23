@@ -82,15 +82,14 @@ export function getDuration(silk: ArrayBufferView | ArrayBuffer, frameMs = 20): 
     const buffer = ArrayBuffer.isView(silk) ? silk.buffer : silk
     const tencent = silk[0] === 0x02
     let offset = tencent ? 10 : 9
-    let i = 0
+    let blocks = 0
     const view = new DataView(buffer)
     while (offset < view.byteLength) {
         const size = view.getUint16(offset, true)
-        offset += 2
-        i += 1
-        offset += size
+        blocks += 1
+        offset += size + 2
     }
-    return i * frameMs
+    return blocks * frameMs
 }
 
 export function isWav(fileData: ArrayBufferView | ArrayBuffer): boolean {
