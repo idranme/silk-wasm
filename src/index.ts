@@ -16,7 +16,7 @@ export interface decodeResult {
     duration: number
 }
 
-interface WavFileInfo {
+export interface WavFileInfo {
     chunkInfo: {
         chunkId: string
         dataOffset: number
