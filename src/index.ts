@@ -51,9 +51,14 @@ export async function encode(input: ArrayBufferView | ArrayBuffer, sampleRate: n
     })
 
     if (ret === 0) throw new Error('silk encoding failure')
+    const last = arr.pop()
+    if (last) {
+        arr.push(last.slice(0, -1))
+        outputLength--
+    }
 
     return {
-        data: concat(arr, outputLength).slice(0, -1),
+        data: concat(arr, outputLength),
         duration: ret
     }
 }

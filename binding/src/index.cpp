@@ -18,11 +18,6 @@ int silk_encode(std::string data, int data_len, int sample_rate, emscripten::val
     codec_ctx_t ctx = {cb};
     unsigned char *input = (unsigned char *)data.c_str();
     int ret = silkEncode(input, data_len, sample_rate, codec_callback, &ctx);
-    if (input != NULL)
-    {
-        delete[] input;
-        input = NULL;
-    }
     return ret;
 }
 
@@ -31,11 +26,6 @@ int silk_decode(std::string data, int data_len, int sample_rate, emscripten::val
     codec_ctx_t ctx = {cb};
     unsigned char *input = (unsigned char *)data.c_str();
     int ret = silkDecode(input, data_len, sample_rate, codec_callback, &ctx);
-    if (input != NULL)
-    {
-        delete[] input;
-        input = NULL;
-    }
     return ret;
 }
 
