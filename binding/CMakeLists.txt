@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.27)
+cmake_minimum_required(VERSION 3.28)
 
 ## Project
 project(silk_wasm)
@@ -36,7 +36,7 @@ add_library(silk
 add_executable(${PROJECT_NAME} src/index.cpp)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS  "-lembind -sALLOW_MEMORY_GROWTH -sMODULARIZE -sEXPORT_ES6 -sINVOKE_RUN=0 \
---closure 1 --embind-emit-tsd silk_wasm.d.ts")
+--closure 1 --emit-tsd silk_wasm.d.ts")
 
 target_include_directories(${PROJECT_NAME}
   PRIVATE

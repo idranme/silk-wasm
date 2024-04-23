@@ -85,3 +85,8 @@ function floatToSignedInt16(v: number): number {
     v = ~~v
     return v > 32767 ? 32767 : v
 }
+
+
+export function toUTF8String(input: ArrayBuffer, start = 0, end = input.byteLength) {
+    return (new TextDecoder()).decode(input.slice(start, end))
+}

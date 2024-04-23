@@ -1,15 +1,14 @@
 {
     "name": "silk-wasm",
     "description": "Tencent silk encoder for Node.js and browser",
-    "version": "3.3.4",
+    "version": "3.4.0",
     "main": "lib/index.cjs",
     "module": "lib/index.mjs",
     "typings": "lib/index.d.ts",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/idanran/silk-wasm.git"
+        "url": "git+https://github.com/idranme/silk-wasm.git"
     },
-    "author": "idanran <idanran@outlook.com>",
     "license": "MIT",
     "files": [
         "lib"
@@ -29,10 +28,13 @@
         "codec"
     ],
     "devDependencies": {
-        "@types/node": "^20.11.30",
+        "@types/node": "^20.12.7",
         "esbuild": "^0.20.2",
-        "typescript": "^5.4.3",
+        "typescript": "^5.4.5",
         "wav-file-decoder": "^1.0.3"
     },
-    "packageManager": "yarn@4.1.1"
+    "packageManager": "yarn@4.1.1",
+    "engines": {
+        "node": ">=16.14.0"
+    }
 }
