@@ -1,6 +1,6 @@
-import Instance from './silk_wasm.js'
+import Instance from './silk.js'
 import * as WavDecoder from 'wav-file-decoder'
-import { concat, ensureMonoPcm, ensureS16lePcm, toUTF8String } from './utils'
+import { concat, ensureMonoPcm, ensureS16lePcm, toUTF8String, binaryFromSource } from './utils'
 
 export interface encodeResult {
     /** silk */
@@ -33,14 +33,14 @@ export interface WavFileInfo {
 }
 
 /**
-   * 编码为 SILK
-   * @param input WAV 或单声道 pcm_s16le 文件
-   * @param sampleRate `input` 的采样率，可为 8000/12000/16000/24000/32000/44100/48000
-   * @return SILK
-   */
+ * 编码为 SILK
+ * @param input WAV 或单声道 pcm_s16le 文件
+ * @param sampleRate `input` 的采样率，可为 8000/12000/16000/24000/32000/44100/48000
+ * @returns SILK
+ */
 export async function encode(input: ArrayBufferView | ArrayBuffer, sampleRate: number): Promise<encodeResult> {
     const instance = await Instance()
-    let buffer = ArrayBuffer.isView(input) ? input.buffer : input
+    let buffer = binaryFromSource(input)
 
     if (buffer.byteLength === 0) throw new Error('input data length is 0')
 
@@ -72,14 +72,14 @@ export async function encode(input: ArrayBufferView | ArrayBuffer, sampleRate: n
 }
 
 /**
-   * 将 SILK 解码为 PCM
-   * @param input SILK 文件
-   * @param sampleRate `input` 的采样率
-   * @return pcm_s16le
-   */
+ * 将 SILK 解码为 PCM
+ * @param input SILK 文件
+ * @param sampleRate `input` 的采样率
+ * @returns pcm_s16le
+ */
 export async function decode(input: ArrayBufferView | ArrayBuffer, sampleRate: number): Promise<decodeResult> {
     const instance = await Instance()
-    const buffer = ArrayBuffer.isView(input) ? input.buffer : input
+    const buffer = binaryFromSource(input)
 
     if (buffer.byteLength === 0) throw new Error('input data length is 0')
 
@@ -100,18 +100,18 @@ export async function decode(input: ArrayBufferView | ArrayBuffer, sampleRate: n
 }
 
 /**
-   * 获取 SILK 音频时长
-   * @param data SILK 文件
-   * @param frameMs SILK 的 frameMs，可为 20/40/60/80/100，默认为 20
-   * @return 单位为毫秒的时长
-   */
+ * 获取 SILK 音频时长
+ * @param data SILK 文件
+ * @param frameMs SILK 的 frameMs，可为 20/40/60/80/100，默认为 20
+ * @returns 单位为毫秒的时长
+ */
 export function getDuration(data: ArrayBufferView | ArrayBuffer, frameMs = 20): number {
-    const buffer = ArrayBuffer.isView(data) ? data.buffer : data
-    const tencent = data[0] === 0x02
-    let offset = tencent ? 10 : 9
-    let blocks = 0
+    const buffer = binaryFromSource(data)
     const view = new DataView(buffer)
-    while (offset < view.byteLength) {
+    const byteLength = view.byteLength
+    let offset = view.getUint8(0) === 2 ? 10 : 9
+    let blocks = 0
+    while (offset < byteLength) {
         const size = view.getUint16(offset, true)
         blocks += 1
         offset += size + 2
@@ -120,28 +120,28 @@ export function getDuration(data: ArrayBufferView | ArrayBuffer, frameMs = 20): 
 }
 
 /**
-   * 检测是否为 WAV 文件
-   * @param data 任意文件
-   */
+ * 检测是否为 WAV 文件
+ * @param data 任意文件
+ */
 export function isWav(data: ArrayBufferView | ArrayBuffer): boolean {
     return WavDecoder.isWavFile(data)
 }
 
 /**
-   * 获取 WAV 文件的信息
-   * @param data WAV 文件
-   * @return metadata
-   */
+ * 获取 WAV 文件的信息
+ * @param data WAV 文件
+ * @returns metadata
+ */
 export function getWavFileInfo(data: ArrayBufferView | ArrayBuffer): WavFileInfo {
     return WavDecoder.getWavFileInfo(data)
 }
 
 /**
-   * 检测是否为 SILK 文件
-   * @param data 任意文件
-   */
+ * 检测是否为 SILK 文件
+ * @param data 任意文件
+ */
 export function isSilk(data: ArrayBufferView | ArrayBuffer): boolean {
-    const buffer = ArrayBuffer.isView(data) ? data.buffer : data
+    const buffer = binaryFromSource(data)
     if (buffer.byteLength < 7) return false
     return toUTF8String(buffer, 0, 7).includes('#!SILK')
 }

@@ -90,3 +90,11 @@ function floatToSignedInt16(v: number): number {
 export function toUTF8String(input: ArrayBuffer, start = 0, end = input.byteLength) {
     return (new TextDecoder()).decode(input.slice(start, end))
 }
+
+export function binaryFromSource(source: ArrayBufferView | ArrayBuffer) {
+    if (ArrayBuffer.isView(source)) {
+        return source.buffer.slice(source.byteOffset, source.byteOffset + source.byteLength)
+    } else {
+        return source
+    }
+}

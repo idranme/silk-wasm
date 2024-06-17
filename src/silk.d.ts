@@ -1,5 +1,6 @@
 // TypeScript bindings for emscripten-generated code.  Automatically generated at compile time.
 declare namespace RuntimeExports {
+    let HEAPF32: any;
     let HEAPF64: any;
     let HEAP_DATA_VIEW: any;
     let HEAP8: any;
@@ -14,9 +15,11 @@ declare namespace RuntimeExports {
 interface WasmModule {
 }
 
+type EmbindString = ArrayBuffer|Uint8Array|Uint8ClampedArray|Int8Array|string;
 interface EmbindModule {
-  silk_encode(_0: ArrayBuffer|Uint8Array|Uint8ClampedArray|Int8Array|string, _1: number, _2: number, _3: any): number;
-  silk_decode(_0: ArrayBuffer|Uint8Array|Uint8ClampedArray|Int8Array|string, _1: number, _2: number, _3: any): number;
+  silk_encode(_0: EmbindString, _1: number, _2: number, _3: any): number;
+  silk_decode(_0: EmbindString, _1: number, _2: number, _3: any): number;
 }
+
 export type MainModule = WasmModule & typeof RuntimeExports & EmbindModule;
 export default function MainModuleFactory (options?: unknown): Promise<MainModule>;

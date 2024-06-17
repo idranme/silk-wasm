@@ -1,12 +1,12 @@
 cmake_minimum_required(VERSION 3.28)
 
 ## Project
-project(silk_wasm)
+project(silk)
 
 ## Flags and includes for building
 # Note that we make sure not to overwrite previous flags
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -O3")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -O3")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Os -msimd128 -flto")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Os -msimd128 -flto")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build/)
 
 ## Add any additional library paths here
@@ -27,7 +27,7 @@ file(GLOB SILK_SRC
   libSilkCodec/silk/src/SILK_SDK_SRC_ARM_v1.0.9/src/*.c
 )
 
-add_library(silk
+add_library(silk_native
   ${SILK_SRC}
   libSilkCodec/src/encoder.c
   libSilkCodec/src/decoder.c
@@ -36,11 +36,11 @@ add_library(silk
 add_executable(${PROJECT_NAME} src/index.cpp)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES LINK_FLAGS  "-lembind -sALLOW_MEMORY_GROWTH -sMODULARIZE -sEXPORT_ES6 -sINVOKE_RUN=0 \
---closure 1 --emit-tsd silk_wasm.d.ts")
+--closure 1 --emit-tsd silk.d.ts")
 
 target_include_directories(${PROJECT_NAME}
   PRIVATE
   libSilkCodec/src/include
 )
 
-target_link_libraries(${PROJECT_NAME} silk)
+target_link_libraries(${PROJECT_NAME} silk_native)
