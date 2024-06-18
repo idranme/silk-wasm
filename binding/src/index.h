@@ -3,15 +3,17 @@
 
 #include <emscripten/val.h>
 
+EMSCRIPTEN_DECLARE_VAL_TYPE(callback_type);
+
 typedef struct codec_ctx
 {
-    emscripten::val cb;
+    std::vector<unsigned char> output;
 } codec_ctx_t;
 
 void codec_callback(void *userdata, unsigned char *data, int len);
 
-int silk_encode(std::string data, int data_len, int sample_rate, emscripten::val cb);
+int silk_encode(const std::string &data, int sample_rate, callback_type cb);
 
-int silk_decode(std::string data, int data_len, int sample_rate, emscripten::val cb);
+int silk_decode(const std::string &data, int sample_rate, callback_type cb);
 
 #endif

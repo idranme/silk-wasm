@@ -1,7 +1,7 @@
 {
     "name": "silk-wasm",
     "description": "Tencent silk encoder for Node.js and browser",
-    "version": "3.5.0",
+    "version": "3.6.0",
     "main": "lib/index.cjs",
     "module": "lib/index.mjs",
     "typings": "lib/index.d.ts",
@@ -28,7 +28,7 @@
         "codec"
     ],
     "devDependencies": {
-        "@types/node": "^20.14.2",
+        "@types/node": "^20.14.5",
         "esbuild": "^0.21.5",
         "typescript": "^5.4.5",
         "wav-file-decoder": "^1.0.3"

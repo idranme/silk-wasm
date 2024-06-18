@@ -9,23 +9,27 @@ extern "C"
 
 void codec_callback(void *userdata, unsigned char *p, int len)
 {
-    codec_ctx_t ctx = *(codec_ctx_t *)userdata;
-    ctx.cb(emscripten::val(emscripten::typed_memory_view(len, p)));
+    auto ctx = static_cast<codec_ctx_t *>(userdata);
+    ctx->output.insert(ctx->output.end(), &p[0], &p[len]);
 }
 
-int silk_encode(std::string data, int data_len, int sample_rate, emscripten::val cb)
+int silk_encode(const std::string &data, int sample_rate, callback_type cb)
 {
-    codec_ctx_t ctx = {cb};
-    unsigned char *input = (unsigned char *)data.c_str();
-    int ret = silkEncode(input, data_len, sample_rate, codec_callback, &ctx);
+    std::vector<unsigned char> output;
+    codec_ctx_t ctx = {output};
+    auto input = (unsigned char *)data.c_str();
+    int ret = silkEncode(input, data.size(), sample_rate, codec_callback, &ctx);
+    cb(emscripten::val(emscripten::typed_memory_view(ctx.output.size(), ctx.output.data())));
     return ret;
 }
 
-int silk_decode(std::string data, int data_len, int sample_rate, emscripten::val cb)
+int silk_decode(const std::string &data, int sample_rate, callback_type cb)
 {
-    codec_ctx_t ctx = {cb};
-    unsigned char *input = (unsigned char *)data.c_str();
-    int ret = silkDecode(input, data_len, sample_rate, codec_callback, &ctx);
+    std::vector<unsigned char> output;
+    codec_ctx_t ctx = {output};
+    auto input = (unsigned char *)data.c_str();
+    int ret = silkDecode(input, data.size(), sample_rate, codec_callback, &ctx);
+    cb(emscripten::val(emscripten::typed_memory_view(ctx.output.size(), ctx.output.data())));
     return ret;
 }
 
@@ -33,4 +37,5 @@ EMSCRIPTEN_BINDINGS(module)
 {
     emscripten::function("silk_encode", &silk_encode);
     emscripten::function("silk_decode", &silk_decode);
+    emscripten::register_type<callback_type>("(output: Uint8Array) => void");
 }

@@ -1,18 +1,26 @@
 import Instance from './silk.js'
 import * as WavDecoder from 'wav-file-decoder'
-import { concat, ensureMonoPcm, ensureS16lePcm, toUTF8String, binaryFromSource } from './utils'
+import { ensureMonoPcm, ensureS16lePcm, toUTF8String, binaryFromSource } from './utils'
 
-export interface encodeResult {
-    /** silk */
+/** @deprecated use `EncodeResult` instead */
+export interface encodeResult extends EncodeResult {
+}
+
+/** @deprecated use `DecodeResult` instead */
+export interface decodeResult extends DecodeResult {
+}
+
+export interface EncodeResult {
+    /** SILK */
     data: Uint8Array
-    /** unit: milliseconds */
+    /** in milliseconds */
     duration: number
 }
 
-export interface decodeResult {
+export interface DecodeResult {
     /** pcm_s16le */
     data: Uint8Array
-    /** unit: milliseconds */
+    /** in milliseconds */
     duration: number
 }
 
@@ -38,7 +46,7 @@ export interface WavFileInfo {
  * @param sampleRate `input` 的采样率，可为 8000/12000/16000/24000/32000/44100/48000
  * @returns SILK
  */
-export async function encode(input: ArrayBufferView | ArrayBuffer, sampleRate: number): Promise<encodeResult> {
+export async function encode(input: ArrayBufferView | ArrayBuffer, sampleRate: number): Promise<EncodeResult> {
     const instance = await Instance()
     let buffer = binaryFromSource(input)
 
@@ -50,24 +58,19 @@ export async function encode(input: ArrayBufferView | ArrayBuffer, sampleRate: n
         buffer = ensureS16lePcm(ensureMonoPcm(channelData))
     }
 
-    const arr: Uint8Array[] = []
-    let outputLength = 0
+    let data = new Uint8Array()
 
-    const ret = instance.silk_encode(buffer, buffer.byteLength, sampleRate, (chunk: Uint8Array) => {
-        outputLength += chunk.length
-        arr.push(chunk.slice())
+    const duration = instance.silk_encode(buffer, sampleRate, (output: Uint8Array) => {
+        if (output.length > 0) {
+            data = output.slice(0, -1)
+        }
     })
 
-    if (ret === 0) throw new Error('silk encoding failure')
-    const last = arr.pop()
-    if (last) {
-        arr.push(last.slice(0, -1))
-        outputLength--
-    }
+    if (duration === 0) throw new Error('silk encoding failure')
 
     return {
-        data: concat(arr, outputLength),
-        duration: ret
+        data,
+        duration
     }
 }
 
@@ -77,25 +80,25 @@ export async function encode(input: ArrayBufferView | ArrayBuffer, sampleRate: n
  * @param sampleRate `input` 的采样率
  * @returns pcm_s16le
  */
-export async function decode(input: ArrayBufferView | ArrayBuffer, sampleRate: number): Promise<decodeResult> {
+export async function decode(input: ArrayBufferView | ArrayBuffer, sampleRate: number): Promise<DecodeResult> {
     const instance = await Instance()
     const buffer = binaryFromSource(input)
 
     if (buffer.byteLength === 0) throw new Error('input data length is 0')
 
-    const arr: Uint8Array[] = []
-    let outputLength = 0
+    let data = new Uint8Array()
 
-    const ret = instance.silk_decode(buffer, buffer.byteLength, sampleRate, (chunk: Uint8Array) => {
-        outputLength += chunk.length
-        arr.push(chunk.slice())
+    const duration = instance.silk_decode(buffer, sampleRate, (output: Uint8Array) => {
+        if (output.length > 0) {
+            data = output.slice()
+        }
     })
 
-    if (ret === 0) throw new Error('silk decoding failure')
+    if (duration === 0) throw new Error('silk decoding failure')
 
     return {
-        data: concat(arr, outputLength),
-        duration: ret
+        data,
+        duration
     }
 }
 
