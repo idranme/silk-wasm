@@ -1,6 +1,7 @@
 lib
 dist
 temp
+build
 
 .pnp.*
 .yarn/*

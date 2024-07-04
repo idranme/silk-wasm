@@ -1,8 +1,7 @@
 #include "include/common.h"
 #include "include/codec.h"
 
-int __dllexport
-silkDecode(unsigned char *silkData, int dataLen,
+int silkDecode(const unsigned char *silkData, int dataLen,
            int sampleRate, cb_codec callback, void *userdata)
 {
   SKP_uint8 payload[MAX_BYTES_PER_FRAME * MAX_INPUT_FRAMES * (MAX_LBRR_DELAY + 1)];
@@ -12,7 +11,7 @@ silkDecode(unsigned char *silkData, int dataLen,
   SKP_int32 remainPackets = 0, packetSize_ms = 0;
   SKP_int16 len, nBytes, totalLen = 0;
   SKP_int32 decSizeBytes, result, totPackets;
-  unsigned char *psRead = silkData;
+  const unsigned char *psRead = silkData;
   void *psDec = NULL;
 
   SKP_SILK_SDK_DecControlStruct DecControl;

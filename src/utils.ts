@@ -15,24 +15,14 @@ export function ensureMonoPcm(channelData: Float32Array[]): Float32Array {
 }
 
 export function ensureS16lePcm(input: Float32Array): ArrayBuffer {
-    const numberOfFrames = input.length
-    const bytesPerSample = Math.ceil(16 / 8)
-    const fileLength = numberOfFrames * bytesPerSample
+    const fileLength = input.length * 2
     const arrayBuffer = new ArrayBuffer(fileLength)
     const int16Array = new Int16Array(arrayBuffer)
-    for (let offset = 0; offset < numberOfFrames; offset++) {
-        const sampleValueFloat = input[offset]
-        const sampleValueInt16 = floatToSignedInt16(sampleValueFloat)
-        int16Array[offset] = sampleValueInt16
+    for (let offset = 0; offset < input.length; offset++) {
+        const x = ~~(input[offset] * 32768)
+        int16Array[offset] = x > 32767 ? 32767 : x
     }
     return arrayBuffer
-}
-
-// input: [-1,1] float32
-function floatToSignedInt16(v: number): number {
-    v *= 32768
-    v = ~~v
-    return v > 32767 ? 32767 : v
 }
 
 export function toUTF8String(input: ArrayBuffer, start = 0, end = input.byteLength) {

@@ -1,8 +1,7 @@
 #include "include/common.h"
 #include "include/codec.h"
 
-int __dllexport
-silkEncode(unsigned char *pcmData, int dataLen,
+int silkEncode(const unsigned char *pcmData, int dataLen,
            int sampleRate, cb_codec callback, void *userdata)
 {
   size_t counter;
@@ -10,7 +9,7 @@ silkEncode(unsigned char *pcmData, int dataLen,
   SKP_uint8 payload[MAX_BYTES_PER_FRAME * MAX_INPUT_FRAMES];
   SKP_int16 in[FRAME_LENGTH_MS * MAX_API_FS_KHZ * MAX_INPUT_FRAMES];
   SKP_int32 encSizeBytes, result, totPackets;
-  unsigned char *psRead = pcmData, *psReadEnd = pcmData + dataLen;
+  const unsigned char *psRead = pcmData, *psReadEnd = pcmData + dataLen;
   void *psEnc = NULL;
 
 #ifdef _SYSTEM_IS_BIG_ENDIAN

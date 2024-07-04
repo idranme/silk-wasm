@@ -1,8 +1,6 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
-#define _CRT_SECURE_NO_WARNINGS
-
 #include <SKP_Silk_SDK_API.h>
 #include <SKP_Silk_SigProc_FIX.h>
 
