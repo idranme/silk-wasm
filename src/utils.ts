@@ -29,7 +29,8 @@ export function toUTF8String(input: ArrayBuffer, start = 0, end = input.byteLeng
 
 export function binaryFromSource(source: ArrayBufferView | ArrayBuffer) {
   if (ArrayBuffer.isView(source)) {
-    return source.buffer
+    // https://stackoverflow.com/questions/8609289/convert-a-binary-nodejs-buffer-to-javascript-arraybuffer#answer-31394257
+    return source.buffer.slice(source.byteOffset, source.byteOffset + source.byteLength)
   } else {
     return source
   }
