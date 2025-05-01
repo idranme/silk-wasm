@@ -63,6 +63,10 @@ function isSilk(data: ArrayBufferView | ArrayBuffer): boolean
 
 ## Example
 
+```ps1
+ffmpeg -i canon.mp3 -ar 24000 -ac 1 -f s16le canon.pcm
+```
+
 ```js
 import { encode } from './lib/index.mjs'  // use `silk-wasm` instead
 import { readFile, writeFile } from 'fs/promises'
@@ -73,6 +77,7 @@ await writeFile('./test.silk', silk.data)
 ```
 
 ## Build wasm
+
 ```
 cd binding
 emcmake cmake .

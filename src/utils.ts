@@ -15,14 +15,12 @@ export function ensureMonoPcm(channelData: Float32Array[]): Float32Array {
 }
 
 export function ensureS16lePcm(input: Float32Array): ArrayBuffer {
-  const fileLength = input.length * 2
-  const arrayBuffer = new ArrayBuffer(fileLength)
-  const int16Array = new Int16Array(arrayBuffer)
+  const int16Array = new Int16Array(input.length)
   for (let offset = 0; offset < input.length; offset++) {
     const x = ~~(input[offset] * 32768)
     int16Array[offset] = x > 32767 ? 32767 : x
   }
-  return arrayBuffer
+  return int16Array.buffer
 }
 
 export function toUTF8String(input: ArrayBuffer, start = 0, end = input.byteLength) {
@@ -31,7 +29,7 @@ export function toUTF8String(input: ArrayBuffer, start = 0, end = input.byteLeng
 
 export function binaryFromSource(source: ArrayBufferView | ArrayBuffer) {
   if (ArrayBuffer.isView(source)) {
-    return source.buffer.slice(source.byteOffset, source.byteOffset + source.byteLength)
+    return source.buffer
   } else {
     return source
   }
